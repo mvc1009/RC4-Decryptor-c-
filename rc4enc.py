@@ -22,6 +22,9 @@ def ByteToHex (bytestring):
     s = ''.join('{:02x}'.format(x) for x in bytestring)
     return s
 
+def encodeb64(data):
+    return base64.b64encode(data)
+
 def crypt(key, data):
     S = list(range(256))
     j = 0
@@ -57,14 +60,18 @@ def write_filename(path, ciphered_data):
 data = read_filename(filename)
 print("[!] Data")
 print_hex(ByteToHex(data))
+
+#encoded_data = encodeb64(data)
+#print("[!] B64 Encoded Data")
+#print_hex(ByteToHex(encoded_data))
+#print(encoded_data)
+
 ciphered_data = crypt (password, data)
 key = [ord(char) for char in password]
 print("[!] Key")
 print_hex(ByteToHex(key))
 
-bstring = ByteToHex(ciphered_data)
 print("[!] Encrypted RC4 Data")
-
-print_hex(bstring)
+print_hex(ByteToHex(ciphered_data))
 
 write_filename(out_filename, array.array("B", ciphered_data))
